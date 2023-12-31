@@ -1,0 +1,249 @@
+#include<bits/stdc++.h>
+#include<iostream>
+
+using namespace std;
+
+class Hotel
+{
+private:
+    struct Node
+    {
+        int id,date;
+        string name,roomtype;
+        Node *next;
+    };
+public:
+    Node *head = NULL;
+    void insert();
+    void menu();
+    void update();
+    void search();
+    void del();
+    void sort();
+    void show();
+    void list();
+};
+void Hotel::menu()
+{
+    p:
+        int choice;
+        cout<<"\n";
+        cout<<"\n Welcome to   InterContinental Dhaka Hotel Management System Application\n"<<endl;
+        cout<<"\n\t----Hotel Management System---";
+        cout<<"\n\n S.No      Function       Description"<<endl;
+        cout<<"\n1\tAllocate Room\t\t\tInsert New Room";
+        cout<<"\n2\tSearch Room\t\t\tSearch Room with RoomId";
+        cout<<"\n3\tUpdate Room\t\t\tUpdate Room Record";
+        cout<<"\n4\tDelete Room\t\t\tDelete Room With RoomId";
+        cout<<"\n5\tShow Room records\t\tshow Room Records that we added";
+        cout<<"\n6\tExit"<<endl;
+
+        cout<<"Enter your choice"<<endl;
+        cin>>choice;
+
+        switch(choice)
+        {
+            case 1: insert();
+                    menu();
+            case 2: search();
+                    menu();
+             case 3: update();
+                      menu();
+             case 4: del() ;
+                     menu();
+              case 5: sort();
+                      show();
+                      menu() ;
+
+              default:
+                cout<<"Invalid";
+
+        }
+}
+
+void Hotel::insert()
+{
+    cout<<"\n\t---Hotel Management System---";
+    Node *new_node= new Node;
+    cout<<"\nEnter Room Id: "<<endl;
+    cin>>new_node->id;
+    cout<<"\nEnter Customer Name: "<<endl;
+    cin>>new_node->name;
+    cout<<"\nEnter Room Allocated Date: "<<endl;
+    cin>>new_node->date;
+    cout<<"\nEnter Room type(single/double/twin): "<<endl;
+    cin>>new_node->roomtype;
+
+    if(head==NULL)
+    {
+        head = new_node;
+    }
+    else
+    {
+        Node *ptr=head;
+        while(ptr->next!=NULL)
+        {
+            ptr=ptr->next;
+        }
+        ptr->next=new_node;
+    }
+    cout<<"\n\n\t\t New Room Inserted";
+}
+
+void Hotel::search()
+{
+    cout<<"\n\t----Hotel Management System---";
+    int t_id;
+    if(head==NULL)
+    {
+        cout<<"\n\nList is Empty";
+    }
+    else
+    {
+        cout<<"\n\nRoom Id ";
+        cin>>t_id;
+        Node *ptr = head;
+        while(ptr!=NULL)
+        {
+           if(t_id==ptr->id)
+           {
+               cout<<"\n\nRoom Id: "<<ptr->id;
+               cout<<"\n\nCustomer Name: "<<ptr->name;
+               cout<<"\n\nRoom Allocated Date: "<<ptr->date;
+               cout<<"\n\nRoom type: "<<ptr->roomtype;
+           }
+           ptr=ptr->next;
+        }
+    }
+}
+void Hotel::update()
+{
+    cout<<"\n\t---Hotel Management System---";
+    int t_id;
+    if(head==NULL)
+    {
+        cout<<"\n\t list is empty";
+    }
+    else
+    {
+        cout<<"\n\nRoom Id";
+        cin>>t_id;
+        Node *ptr=head;
+        while(ptr!=NULL)
+        {
+            if(t_id==ptr->id)
+            {
+                cout<<"\n\nRoom Id; ";
+                cin>>ptr->id;
+
+                cout<<"\n\nCustomer Name: ";
+                cin>>ptr->name;
+
+                cout<<"\n\nAllocated Date: ";
+                cin>>ptr->date;
+
+                cout<<"\n\nRoom Type: ";
+                cin>>ptr->roomtype;
+
+                cout<<"\n\n\t\t Update record Successfull";
+            }
+            ptr=ptr->next;
+        }
+    }
+}
+void Hotel::del()
+{
+    cout<<"\n\t---Hotel Management System---";
+    int t_id;
+    if(head==NULL)
+    {
+        cout<<"\n\nList is Empty";
+    }
+    else
+    {
+        cout<<"\n\nRoom Id";
+        cin>>t_id;
+        if(t_id==head->id)
+        {
+            Node *ptr=head;
+            head =head->next;
+            delete ptr;
+            cout<<"Delete Room Record Successfull t\n";
+        }
+        else
+        {
+            Node *pre=head;
+            Node *ptr=head;
+            while(ptr!=NULL)
+            {
+                if(t_id==ptr->id)
+                {
+                    pre->next=ptr->next;
+                    delete ptr;
+                    cout<<"Delete Room Record Successfull\t\n";
+                    break;
+                }
+                pre=ptr;
+                ptr=ptr->next;
+            }
+        }
+    }
+}
+void Hotel::show()
+{
+    Node *ptr=head;
+    while(ptr!=NULL)
+    {
+        cout<<"\n\nRoom Id: "<<ptr->id;
+        cout<<"\n\nCustomer Name: "<<ptr->name;
+        cout<<"\n\nRoom Allocated Date: "<<ptr->date;
+        cout<<"\n\nRoom type: "<<ptr->roomtype;
+        ptr=ptr->next;
+    }
+}
+void Hotel::sort()
+{
+    if(head==NULL)
+    {
+        cout<<"\n\nlist is empty";
+        menu();
+    }
+    int count=0,t_date,t_id;
+    string t_name,t_roomtype;
+    Node *ptr=head;
+    while(ptr!=NULL)
+    {
+        count++;
+        ptr=ptr->next;
+    }
+    for(int i=1;i<=count;i++)
+    {
+        Node *ptr=head;
+        for(int j=1;j<count;j++)
+        {
+            if(ptr->id>ptr->next->id)
+            {
+              t_id=ptr->id;
+              t_name=ptr->name;
+              t_date=ptr->date;
+              t_roomtype=ptr->roomtype;
+
+              ptr->id=ptr->next->id;
+              ptr->name=ptr->next->name;
+              ptr->date=ptr->next->date;
+              ptr->roomtype=ptr->next->roomtype;
+
+              ptr->next->id=t_id;
+              ptr->next->name=t_name;
+              ptr->next->date=t_date;
+              ptr->next->roomtype=t_roomtype;
+            }
+            ptr=ptr->next;
+        }
+    }
+}
+int main()
+{
+    Hotel h;
+    h.menu();
+}
